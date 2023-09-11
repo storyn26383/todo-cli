@@ -1,18 +1,13 @@
 {
-    "name": "laravel-zero/laravel-zero",
-    "description": "The Laravel Zero Framework.",
-    "keywords": ["framework", "laravel", "laravel zero", "console", "cli"],
-    "homepage": "https://laravel-zero.com",
+    "name": "sasaya/todo-cli",
+    "description": "Command line todo app for geeks.",
+    "keywords": ["laravel zero", "todo"],
     "type": "project",
     "license": "MIT",
-    "support": {
-        "issues": "https://github.com/laravel-zero/laravel-zero/issues",
-        "source": "https://github.com/laravel-zero/laravel-zero"
-    },
     "authors": [
         {
-            "name": "Nuno Maduro",
-            "email": "enunomaduro@gmail.com"
+            "name": "Sasaya",
+            "email": "storyn26383@gmail.com"
         }
     ],
     "require": {
@@ -47,5 +42,5 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "bin": ["application"]
+    "bin": ["todo"]
 }
