@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Intonate\TinkerZero\TinkerZeroServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        if (class_exists(TinkerZeroServiceProvider::class)) {
+            $this->app->register(TinkerZeroServiceProvider::class);
+        }
     }
 }
