@@ -54,6 +54,6 @@ class EditCommand extends Command
 
         $todo->update(compact('title'));
 
-        $this->renderTodos();
+        return $this->renderTodos();
     }
 }

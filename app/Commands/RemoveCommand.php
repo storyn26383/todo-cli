@@ -52,6 +52,6 @@ class RemoveCommand extends Command
 
         $todo->delete();
 
-        $this->renderTodos();
+        return $this->renderTodos();
     }
 }

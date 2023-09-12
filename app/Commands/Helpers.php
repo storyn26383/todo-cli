@@ -39,6 +39,8 @@ trait Helpers
         HTML, compact('state', 'todos'));
 
         render($html);
+
+        return 0;
     }
 
     private function buildTodosHtml(string $state, string $titleBg): string

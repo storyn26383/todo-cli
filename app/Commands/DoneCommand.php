@@ -46,6 +46,6 @@ class DoneCommand extends Command
 
         Todo::findOrFail($id)->markAsDone();
 
-        $this->renderTodos();
+        return $this->renderTodos();
     }
 }

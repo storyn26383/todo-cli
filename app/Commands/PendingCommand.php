@@ -46,6 +46,6 @@ class PendingCommand extends Command
 
         Todo::findOrFail($id)->markAsPending();
 
-        $this->renderTodos();
+        return $this->renderTodos();
     }
 }
