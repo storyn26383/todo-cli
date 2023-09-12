@@ -23,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->prepareDatabaseDirectory();
+        $this->prepareCompiledViewCacheDirectory();
 
         if ($this->app->environment('production')) {
             $this->migrateDatabase();
@@ -39,10 +40,18 @@ class AppServiceProvider extends ServiceProvider
         }
     }
 
-    private function prepareDatabaseDirectory()
+    private function prepareDatabaseDirectory(): void
     {
-        $path = File::dirname(config('database.connections.sqlite.database'));
+        $this->prepareDirectory(File::dirname(config('database.connections.sqlite.database')));
+    }
 
+    private function prepareCompiledViewCacheDirectory(): void
+    {
+        $this->prepareDirectory(config('view.compiled'));
+    }
+
+    private function prepareDirectory(string $path): void
+    {
         if (! File::exists($path)) {
             File::makeDirectory($path, 0755, true);
         }

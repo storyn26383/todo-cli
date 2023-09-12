@@ -5,14 +5,18 @@ namespace App\Commands;
 use App\Models\Todo;
 use LaravelZero\Framework\Commands\Command;
 
+use function Laravel\Prompts\select;
+
 class DoneCommand extends Command
 {
+    use Helpers;
+
     /**
      * The signature of the command.
      *
      * @var string
      */
-    protected $signature = 'done';
+    protected $signature = 'done {id?}';
 
     /**
      * The description of the command.
@@ -35,24 +39,13 @@ class DoneCommand extends Command
      */
     public function handle()
     {
-        $todos = Todo::pending()->get()->map(function ($todo) {
-            return [
-                $todo->id,
-                $todo->title,
-                $todo->deadline?->diffForHumans() ?? '-',
-                $todo->created_at->diffForHumans(),
-            ];
-        })->toArray();
-
-        $this->table(
-            ['ID', 'Title', 'Deadline', 'Created'],
-            $todos
+        $id = $this->argument('id') ?? select(
+            label: 'Which todo do you want to mark as done?',
+            options: Todo::pending()->pluck('title', 'id'),
         );
-
-        $id = $this->ask('Which todo do you want to mark as done?');
 
         Todo::findOrFail($id)->markAsDone();
 
-        $this->call('ls');
+        $this->renderTodos();
     }
 }

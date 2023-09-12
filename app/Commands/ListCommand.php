@@ -2,11 +2,14 @@
 
 namespace App\Commands;
 
+use App\Enums\TodoState;
 use App\Models\Todo;
 use LaravelZero\Framework\Commands\Command;
 
 class ListCommand extends Command
 {
+    use Helpers;
+
     /**
      * The signature of the command.
      *
@@ -35,64 +38,14 @@ class ListCommand extends Command
      */
     public function handle()
     {
-        [$headers, $todos] = $this->getTodos();
-
-        $this->table($headers, $todos);
-    }
-
-    private function getTodos(): array
-    {
         if ($this->option('all')) {
-            return $this->getAllTodos();
+            return $this->renderTodos();
         }
 
         if ($this->option('done')) {
-            return $this->getDoneTodos();
+            return $this->renderTodos(TodoState::Done);
         }
 
-        return $this->getPendingTodos();
-    }
-
-    private function getAllTodos(): array
-    {
-        $headers = ['Title', 'State', 'Deadline', 'Created'];
-        $todos = Todo::get()->map(function ($todo) {
-            return [
-                $todo->title,
-                $todo->state->value,
-                $todo->deadline?->diffForHumans() ?? '-',
-                $todo->created_at->diffForHumans(),
-            ];
-        })->toArray();
-
-        return [$headers, $todos];
-    }
-
-    private function getPendingTodos(): array
-    {
-        $headers = ['Title', 'Deadline', 'Created'];
-        $todos = Todo::pending()->get()->map(function ($todo) {
-            return [
-                $todo->title,
-                $todo->deadline?->diffForHumans() ?? '-',
-                $todo->created_at->diffForHumans(),
-            ];
-        })->toArray();
-
-        return [$headers, $todos];
-    }
-
-    private function getDoneTodos(): array
-    {
-        $headers = ['Title', 'Deadline', 'Created'];
-        $todos = Todo::done()->get()->map(function ($todo) {
-            return [
-                $todo->title,
-                $todo->deadline?->diffForHumans() ?? '-',
-                $todo->created_at->diffForHumans(),
-            ];
-        })->toArray();
-
-        return [$headers, $todos];
+        return $this->renderTodos(TodoState::Pending);
     }
 }

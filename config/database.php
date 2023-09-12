@@ -38,8 +38,7 @@ return [
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DATABASE_URL'),
-            // TODO: from storage_path
-            'database' => env('DB_DATABASE', $_SERVER['HOME'] . '/.'. app('name') . '/database/database.sqlite'),
+            'database' => env('DB_DATABASE', home_storage_path('database/database.sqlite')),
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],

@@ -3,7 +3,11 @@
 namespace App\Commands;
 
 use App\Models\Todo;
+use Laravel\Prompts\Prompt;
 use LaravelZero\Framework\Commands\Command;
+
+use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\select;
 
 class RemoveCommand extends Command
 {
@@ -12,7 +16,7 @@ class RemoveCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'rm';
+    protected $signature = 'rm {id?}';
 
     /**
      * The description of the command.
@@ -35,29 +39,19 @@ class RemoveCommand extends Command
      */
     public function handle()
     {
-        $todos = Todo::get()->map(function ($todo) {
-            return [
-                $todo->id,
-                $todo->title,
-                $todo->state->value,
-                $todo->deadline?->diffForHumans() ?? '-',
-                $todo->created_at->diffForHumans(),
-            ];
-        })->toArray();
-
-        $this->table(
-            ['ID', 'Title', 'State', 'Deadline', 'Created'],
-            $todos
+        $id = $this->argument('id') ?? select(
+            label: 'Which todo do you want to remove?',
+            options: Todo::pluck('title', 'id'),
         );
-
-        $id = $this->ask('Which todo do you want to remove?');
 
         $todo = Todo::findOrFail($id);
 
-        $this->confirm("Todo `[{$id}] {$todo->title}` will be removed. Do you wish to continue?");
+        if (! confirm("Todo `[{$id}] {$todo->title}` will be removed. Do you wish to continue?", default: false)) {
+            return 1;
+        }
 
         $todo->delete();
 
-        $this->call('ls', ['--all' => true]);
+        $this->renderTodos();
     }
 }

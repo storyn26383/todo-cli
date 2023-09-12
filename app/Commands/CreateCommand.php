@@ -2,11 +2,16 @@
 
 namespace App\Commands;
 
+use App\Enums\TodoState;
 use App\Models\Todo;
 use LaravelZero\Framework\Commands\Command;
 
+use function Laravel\Prompts\text;
+
 class CreateCommand extends Command
 {
+    use Helpers;
+
     /**
      * The signature of the command.
      *
@@ -35,10 +40,10 @@ class CreateCommand extends Command
      */
     public function handle()
     {
-        $title = $this->argument('title') ?? $this->ask('What is the title of the todo?');
+        $title = $this->argument('title') ?? text('What is the title of the todo?');
 
         Todo::create(compact('title'));
 
-        $this->call('ls');
+        $this->renderTodos(TodoState::Pending);
     }
 }
