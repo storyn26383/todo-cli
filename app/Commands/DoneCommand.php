@@ -42,6 +42,7 @@ class DoneCommand extends Command
         $id = $this->argument('id') ?? select(
             label: 'Which todo do you want to mark as done?',
             options: Todo::pending()->pluck('title', 'id'),
+            scroll: 15,
         );
 
         Todo::findOrFail($id)->markAsDone();

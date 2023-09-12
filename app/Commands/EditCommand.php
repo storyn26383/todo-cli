@@ -43,6 +43,7 @@ class EditCommand extends Command
         $id = $this->argument('id') ?? select(
             label: 'Which todo do you want to edit?',
             options: Todo::pluck('title', 'id'),
+            scroll: 15,
         );
 
         $todo = Todo::findOrFail($id);

@@ -42,6 +42,7 @@ class PendingCommand extends Command
         $id = $this->argument('id') ?? select(
             label: 'Which todo do you want to mark as pending?',
             options: Todo::done()->pluck('title', 'id'),
+            scroll: 15,
         );
 
         Todo::findOrFail($id)->markAsPending();
