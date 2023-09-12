@@ -5,8 +5,7 @@ namespace App\Commands;
 use App\Enums\TodoState;
 use App\Models\Todo;
 use Illuminate\Support\Facades\Blade;
-
-use function Termwind\render;
+use Termwind\HtmlRenderer;
 
 trait Helpers
 {
@@ -38,7 +37,9 @@ trait Helpers
             </div>
         HTML, compact('state', 'todos'));
 
-        render($html);
+        // FIXME: render function not working in phar file
+        // render($html);
+        $this->line((new HtmlRenderer)->parse($html)->toString());
 
         return 0;
     }
