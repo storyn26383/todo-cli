@@ -3,7 +3,6 @@
 namespace App\Commands;
 
 use App\Enums\TodoState;
-use App\Models\Todo;
 use LaravelZero\Framework\Commands\Command;
 
 class ListCommand extends Command
