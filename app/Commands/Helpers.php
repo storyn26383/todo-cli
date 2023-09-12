@@ -32,8 +32,8 @@ trait Helpers
 
         $html = Blade::render(<<<HTML
             <div class="space-y-1">
-                {$this->buildTodosHtml(TodoState::Pending->value, 'bg-blue')}
-                {$this->buildTodosHtml(TodoState::Done->value, 'bg-green')}
+                {$this->buildTodosHtml(TodoState::Pending->value, 'bg-blue text-white')}
+                {$this->buildTodosHtml(TodoState::Done->value, 'bg-green text-gray')}
             </div>
         HTML, compact('state', 'todos'));
 
@@ -44,14 +44,14 @@ trait Helpers
         return 0;
     }
 
-    private function buildTodosHtml(string $state, string $titleBg): string
+    private function buildTodosHtml(string $state, string $titleStyle): string
     {
         $title = ucfirst($state);
 
         return <<<HTML
             @if (isset(\$todos['{$state}']))
                 <div>
-                    <div class="px-1 {$titleBg} text-black font-bold">{$title} Todos</div>
+                    <div class="px-1 {$titleStyle}">{$title} Todos</div>
                     @foreach (\$todos['{$state}'] as \$todo)
                         <div class="flex space-x-1">
                             <span>[{{ \$todo->id }}]</span>
