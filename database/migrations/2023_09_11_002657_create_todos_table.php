@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('todos', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('state')->default(TodoState::Pending->value);
+            $table->string('state')->default(TodoState::PENDING);
             $table->timestamp('deadline')->nullable();
             $table->timestamps();
         });

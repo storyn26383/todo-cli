@@ -19,7 +19,7 @@ class TodoFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence,
-            'state' => TodoState::Pending,
+            'state' => TodoState::PENDING,
         ];
     }
 }

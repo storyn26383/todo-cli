@@ -2,6 +2,7 @@
 
 namespace App\Commands;
 
+use App\Enums\TodoState;
 use App\Models\Todo;
 use LaravelZero\Framework\Commands\Command;
 
@@ -55,6 +56,6 @@ class EditCommand extends Command
 
         $todo->update(compact('title'));
 
-        return $this->renderTodos();
+        return $this->renderTodos(TodoState::ALL ^ TodoState::ARCHIVED);
     }
 }

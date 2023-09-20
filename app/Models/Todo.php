@@ -10,10 +10,6 @@ class Todo extends Model
 {
     use HasFactory;
 
-    protected $casts = [
-        'state' => TodoState::class,
-    ];
-
     protected $fillable = [
         'title',
         'state',
@@ -22,25 +18,37 @@ class Todo extends Model
 
     public function scopePending($query)
     {
-        return $query->where('state', TodoState::Pending);
+        return $query->where('state', TodoState::PENDING);
     }
 
     public function scopeDone($query)
     {
-        return $query->where('state', TodoState::Done);
+        return $query->where('state', TodoState::DONE);
+    }
+
+    public function scopeArchived($query)
+    {
+        return $query->where('state', TodoState::ARCHIVED);
     }
 
     public function markAsDone()
     {
         $this->update([
-            'state' => TodoState::Done,
+            'state' => TodoState::DONE,
         ]);
     }
 
     public function markAsPending()
     {
         $this->update([
-            'state' => TodoState::Pending,
+            'state' => TodoState::PENDING,
+        ]);
+    }
+
+    public function markAsArchived()
+    {
+        $this->update([
+            'state' => TodoState::ARCHIVED,
         ]);
     }
 }

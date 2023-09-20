@@ -38,13 +38,13 @@ class ListCommand extends Command
     public function handle()
     {
         if ($this->option('all')) {
-            return $this->renderTodos();
+            return $this->renderTodos(TodoState::ALL);
         }
 
         if ($this->option('done')) {
-            return $this->renderTodos(TodoState::Done);
+            return $this->renderTodos(TodoState::DONE);
         }
 
-        return $this->renderTodos(TodoState::Pending);
+        return $this->renderTodos(TodoState::PENDING);
     }
 }

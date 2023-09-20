@@ -2,8 +2,13 @@
 
 namespace App\Enums;
 
-enum TodoState: string
+class TodoState
 {
-    case Pending = 'pending';
-    case Done = 'done';
+    const PENDING = 1 << 0;
+
+    const DONE = 1 << 1;
+
+    const ARCHIVED = 1 << 2;
+
+    const ALL = self::PENDING | self::DONE | self::ARCHIVED;
 }

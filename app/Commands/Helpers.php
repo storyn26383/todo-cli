@@ -9,19 +9,9 @@ use Termwind\HtmlRenderer;
 
 trait Helpers
 {
-    private function renderTodos(?TodoState $state = null)
+    private function renderTodos(int $state = TodoState::ALL)
     {
-        $query = Todo::query();
-
-        if ($state === TodoState::Pending) {
-            $query->pending();
-        }
-
-        if ($state === TodoState::Done) {
-            $query->done();
-        }
-
-        $todos = $query->get()->groupBy('state')->map->map(function ($todo) {
+        $todos = Todo::where('state', '&', $state)->get()->groupBy('state')->map->map(function ($todo) {
             return (object) [
                 'id' => $todo->id,
                 'title' => $todo->title,
@@ -32,8 +22,9 @@ trait Helpers
 
         $html = Blade::render(<<<HTML
             <div class="space-y-1">
-                {$this->buildTodosHtml(TodoState::Pending->value, 'bg-blue text-white')}
-                {$this->buildTodosHtml(TodoState::Done->value, 'bg-green text-gray')}
+                {$this->buildTodosHtml(TodoState::PENDING, 'bg-blue-400 text-black')}
+                {$this->buildTodosHtml(TodoState::DONE, 'bg-green-400 text-black')}
+                {$this->buildTodosHtml(TodoState::ARCHIVED, 'bg-gray text-black')}
             </div>
         HTML, compact('state', 'todos'));
 
@@ -46,7 +37,13 @@ trait Helpers
 
     private function buildTodosHtml(string $state, string $titleStyle): string
     {
-        $title = ucfirst($state);
+        $titleMapping = [
+            TodoState::PENDING => 'Pending',
+            TodoState::DONE => 'Done',
+            TodoState::ARCHIVED => 'Archived',
+        ];
+
+        $title = $titleMapping[$state];
 
         return <<<HTML
             @if (isset(\$todos['{$state}']))

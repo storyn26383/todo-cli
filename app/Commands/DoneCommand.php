@@ -2,6 +2,7 @@
 
 namespace App\Commands;
 
+use App\Enums\TodoState;
 use App\Models\Todo;
 use LaravelZero\Framework\Commands\Command;
 
@@ -47,6 +48,6 @@ class DoneCommand extends Command
 
         Todo::findOrFail($id)->markAsDone();
 
-        return $this->renderTodos();
+        return $this->renderTodos(TodoState::ALL ^ TodoState::ARCHIVED);
     }
 }
