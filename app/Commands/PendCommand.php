@@ -7,7 +7,7 @@ use LaravelZero\Framework\Commands\Command;
 
 use function Laravel\Prompts\select;
 
-class PendingCommand extends Command
+class PendCommand extends Command
 {
     use Helpers;
 
@@ -16,7 +16,7 @@ class PendingCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'pending {id?}';
+    protected $signature = 'pend {id?}';
 
     /**
      * The description of the command.
