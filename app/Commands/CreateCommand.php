@@ -44,6 +44,6 @@ class CreateCommand extends Command
 
         Todo::create(compact('title'));
 
-        return $this->renderTodos(TodoState::Pending);
+        return $this->renderTodos(TodoState::PENDING);
     }
 }
