@@ -2,12 +2,13 @@
 
 namespace App\Commands;
 
+use App\Commands\Traits\RenderTodos;
 use App\Enums\TodoState;
 use LaravelZero\Framework\Commands\Command;
 
 class ListCommand extends Command
 {
-    use Helpers;
+    use RenderTodos;
 
     /**
      * The signature of the command.

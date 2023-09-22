@@ -2,6 +2,7 @@
 
 namespace App\Commands;
 
+use App\Commands\Traits\RenderTodos;
 use App\Enums\TodoState;
 use App\Models\Todo;
 use LaravelZero\Framework\Commands\Command;
@@ -10,7 +11,7 @@ use function Laravel\Prompts\select;
 
 class PendCommand extends Command
 {
-    use Helpers;
+    use RenderTodos;
 
     /**
      * The signature of the command.

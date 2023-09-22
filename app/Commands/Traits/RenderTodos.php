@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Commands;
+namespace App\Commands\Traits;
 
 use App\Enums\TodoState;
 use App\Models\Todo;
 use Illuminate\Support\Facades\Blade;
 use Termwind\HtmlRenderer;
 
-trait Helpers
+trait RenderTodos
 {
     private function renderTodos(int $state = TodoState::ALL)
     {
