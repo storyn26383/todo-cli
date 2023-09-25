@@ -1,5 +1,13 @@
 <?php
 
-test('example', function () {
-    expect(true)->toBeTrue();
-});
+namespace Tests\Unit;
+
+use PHPUnit\Framework\TestCase;
+
+class ExampleTest extends TestCase
+{
+    public function testExample()
+    {
+        $this->assertTrue(true);
+    }
+}
