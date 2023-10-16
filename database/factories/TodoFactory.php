@@ -22,4 +22,31 @@ class TodoFactory extends Factory
             'state' => TodoState::PENDING,
         ];
     }
+
+    public function pending(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'state' => TodoState::PENDING,
+            ];
+        });
+    }
+
+    public function done(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'state' => TodoState::DONE,
+            ];
+        });
+    }
+
+    public function archive(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'state' => TodoState::ARCHIVED,
+            ];
+        });
+    }
 }
