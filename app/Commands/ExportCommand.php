@@ -4,6 +4,7 @@ namespace App\Commands;
 
 use App\Commands\Traits\HasPath;
 use App\Models\Todo;
+use Illuminate\Support\Facades\File;
 use LaravelZero\Framework\Commands\Command;
 
 use function Laravel\Prompts\confirm;
@@ -35,22 +36,22 @@ class ExportCommand extends Command
     {
         $path = $this->normalizePath($this->argument('path'));
 
-        $directory = dirname($path);
+        $directory = File::dirname($path);
 
-        if (! realpath($directory)) {
+        if (! File::exists($directory)) {
             $this->error("Directory `{$directory}` does not exist.");
 
             return 1;
         }
 
         if (! $this->option('force') &&
-            realpath($path) &&
+            File::exists($path) &&
             ! confirm("File `{$path}` already exists. Do you wish to overwrite it?", default: false)
         ) {
             return 1;
         }
 
-        file_put_contents($path, Todo::all()->toJson());
+        File::put($path, Todo::all()->toJson());
 
         return 0;
     }
