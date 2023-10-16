@@ -2,6 +2,8 @@
 
 namespace App\Commands;
 
+use App\Commands\Traits\RenderTodos;
+use App\Enums\TodoState;
 use App\Models\Todo;
 use LaravelZero\Framework\Commands\Command;
 
@@ -10,6 +12,8 @@ use function Laravel\Prompts\select;
 
 class RemoveCommand extends Command
 {
+    use RenderTodos;
+
     /**
      * The signature of the command.
      *
@@ -52,6 +56,6 @@ class RemoveCommand extends Command
 
         $todo->delete();
 
-        return $this->renderTodos();
+        return $this->renderTodos(TodoState::ALL);
     }
 }
