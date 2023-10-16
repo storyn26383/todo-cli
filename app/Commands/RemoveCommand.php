@@ -3,7 +3,6 @@
 namespace App\Commands;
 
 use App\Models\Todo;
-use Laravel\Prompts\Prompt;
 use LaravelZero\Framework\Commands\Command;
 
 use function Laravel\Prompts\confirm;
