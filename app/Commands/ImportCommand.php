@@ -49,7 +49,7 @@ class ImportCommand extends Command
                 return 1;
             }
 
-            Todo::insert($this->removeId($data));
+            Todo::insert($this->formatData($data));
         } catch (Throwable $e) {
             $this->error($e->getMessage());
 
@@ -100,8 +100,11 @@ class ImportCommand extends Command
         return $contents;
     }
 
-    private function removeId(array $data): array
+    private function formatData(array $data): array
     {
-        return array_map(fn ($row) => Arr::except($row, 'id'), $data);
+        return array_map(
+            fn ($row) => (new Todo)->forceFill(Arr::except($row, ['id']))->getAttributes(),
+            $data
+        );
     }
 }
