@@ -67,7 +67,7 @@ class ImportCommand extends Command
             return $this->getContentsFromFile($path);
         }
 
-        // FIXME: stdin break confim method
+        // FIXME: stdin break confirm method
         return $this->getContentsFromStdin();
     }
 
