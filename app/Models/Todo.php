@@ -26,11 +26,6 @@ class Todo extends Model
         return $query->where('state', TodoState::DONE);
     }
 
-    public function scopeArchived($query)
-    {
-        return $query->where('state', TodoState::ARCHIVED);
-    }
-
     public function markAsDone()
     {
         $this->update([
