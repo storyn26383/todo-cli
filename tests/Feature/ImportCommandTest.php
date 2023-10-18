@@ -33,6 +33,25 @@ class ImportCommandTest extends TestCase
         });
     }
 
+    public function testCancel()
+    {
+        Todo::factory()->times(10)->create();
+
+        $path = '/test/test.json';
+        $todos = Todo::all();
+
+        Todo::truncate();
+
+        File::shouldReceive('exists')->once()->with($path)->andReturn(true);
+        File::shouldReceive('get')->once()->with($path)->andReturn($todos->toJson());
+
+        $this->artisan("import {$path}")
+            ->assertExitCode(1)
+            ->expectsConfirmation('Are you sure you want to import these todos?', 'no');
+
+        $this->assertDatabaseEmpty('todos');
+    }
+
     public function testInvalidJson()
     {
         $path = '/test/test.json';

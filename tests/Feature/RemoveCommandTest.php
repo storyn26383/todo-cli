@@ -26,6 +26,19 @@ class RemoveCommandTest extends TestCase
         $this->assertDatabaseMissing('todos', ['id' => $todoToRemove->id]);
     }
 
+    public function testCancel()
+    {
+        $todo = Todo::factory()->pending()->create();
+        $todoToRemove = Todo::factory()->pending()->create();
+
+        $this->artisan("rm {$todoToRemove->id}")
+            ->assertExitCode(1)
+            ->expectsConfirmation("Todo `[{$todoToRemove->id}] {$todoToRemove->title}` will be removed. Do you wish to continue?", 'no');
+
+        $this->assertDatabaseHas('todos', ['id' => $todo->id]);
+        $this->assertDatabaseHas('todos', ['id' => $todoToRemove->id]);
+    }
+
     public function testRemoveWithoutId()
     {
         $todo = Todo::factory()->pending()->create();
